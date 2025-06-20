@@ -2,8 +2,8 @@ import databaseConnections from "@/lib/mongodb";
 import User from "@/models/user";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
-export let isValidEmail = (email: string) => {
-  let regExEmail = /^[^\s@]+@[^\s@]+\.[^\@s]+$/;
+export const isValidEmail = (email: string) => {
+  const regExEmail = /^[^\s@]+@[^\s@]+\.[^\@s]+$/;
   return regExEmail.test(email)
 }
 export async function POST(request: Request) {
@@ -25,8 +25,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "user is alrady exist" }, { status: 400 })
     }
 
-    let enc_password = await bcrypt.hash(password, 10)
-    let newUser = new User({
+    const enc_password = await bcrypt.hash(password, 10)
+    const newUser = new User({
       email,
       name,
       password: enc_password

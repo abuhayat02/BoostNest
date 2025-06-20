@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* global.css বা আপনার main CSS ফাইলে রাখো */
 
 ::-webkit-scrollbar {
   width: 4px;
@@ -58,4 +57,10 @@
 
 .shadow1 {
   box-shadow: 0px 0px 20px red;
+}
+
+
+
+.shadow2 {
+  box-shadow: 0px 0px 10px rgba(255, 5, 5, 0.472);
 }
