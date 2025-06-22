@@ -62,10 +62,13 @@ let handler = NextAuth({
             name: user.name,
             email: user.email,
             image: user.image,
-            role: user.role || 'user'
+            role: 'user'
           });
         }
 
+
+        user.role = existingUser?.role;
+        user.id = existingUser?._id.toString();
       }
 
       return true

@@ -12,9 +12,8 @@ let servicesSchema: Schema<IYouTubeServices> = new mongoose.Schema({
   feature: [{ type: String, required: true, unique: false }],
   thumbnail: { type: String, required: true, unique: false },
   isActive: Boolean,
-  createdAt: { type: Date, default: Date.now(), required: true, unique: false }
-})
+}, { timestamps: true })
 
-let Services: Model<IYouTubeServices> = mongoose.models.Services || mongoose.model<IYouTubeServices>("Services", servicesSchema)
+let Service: Model<IYouTubeServices> = mongoose.models.Service || mongoose.model<IYouTubeServices>("Service", servicesSchema)
 
-export default Services
+export default Service

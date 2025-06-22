@@ -1,4 +1,18 @@
-import { Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
+
+export interface IOrder extends Document {
+  _id: string,
+  paymentScreenShort: string,
+  userId: mongoose.Types.ObjectId,
+  servicesId: mongoose.Types.ObjectId,
+  paymentRequest: boolean,
+  youTubeChannelLink?: string,
+  youtubeVideoLink?: string,
+  description?: string,
+  createdAt: Date,
+  updatedAt: Date
+}
+
 
 export interface IUser extends Document {
   _id: string,
