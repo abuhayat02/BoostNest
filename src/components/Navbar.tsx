@@ -4,14 +4,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const [profile, setProfile] = useState(false)
-  let { data: session } = useSession()
+  const { data: session } = useSession()
 
-  console.log(session)
 
   const isActive = (href: string) => pathname === href;
 
@@ -88,12 +88,12 @@ export default function Navbar() {
           {
             session?.user ? <div id="profile" className="rounded-full flex flex-row-reverse gap-4 border pr-5 border-red-900 w-fit md:mb-0 mb-7 items-center justify-center">
               <p onClick={() => setProfile(!profile)} className="text-white  cursor-pointer uppercase">Profile</p>
-              {session?.user?.image ? <img onClick={() => setProfile(!profile)} src={session?.user?.image || '/image'} className="w-12 h-12 rounded-full cursor-pointer " alt="profile image" /> : <p onClick={() => setProfile(!profile)} className="h-12 w-12 shadow2 cursor-pointer  rounded-full text-2xl font-bold text-white text-center flex flex-row items-center justify-center">{session.user.name[0]}</p>}
+              {session?.user?.image ? <Image width={'100'} height={100} onClick={() => setProfile(!profile)} src={session?.user?.image || '/image'} className="w-12 h-12 rounded-full cursor-pointer " alt="profile image" /> : <p onClick={() => setProfile(!profile)} className="h-12 w-12 shadow2 cursor-pointer  rounded-full text-2xl font-bold text-white text-center flex flex-row items-center justify-center">{session?.user?.name ? session?.user?.name[0] : 'U'}</p>}
               {
-                profile && <div className="  relative right-20 top-20  profile-section">
-                  <li className="text-xl text-white font-bold px-6 py-6 hover:bg-white/20 border-b "><Link href={'/dashboard'}> Dashboard </Link>
+                profile && <div className="  ml-[270px] mx-auto w-full md:right-20 md:w-fit top-20   items-center justify-center flex flex-col  profile-section">
+                  <li className="text-xl w-full text-white font-bold px-6 py-6 hover:bg-white/20 border-b "><Link href={'/dashboard'}> Dashboard </Link>
                   </li>
-                  <li className="text-xl text-white font-bold px-6 py-6 hover:bg-white/20 border-b "><Link href={'/profile'}> Profile </Link>
+                  <li className="text-xl w-full text-white font-bold px-6 py-6 hover:bg-white/20 border-b "><Link href={'/profile'}> Profile </Link>
                   </li>
                   <div onClick={() => setProfile(!profile)} className="absolute cursor-pointer  text-red-700 p-2 h-6 w-6 top-0 right-0 text-2xl flex flex-row items-center justify-center rounded-full bg-white/50">X</div>
                   <button className="w-fit mx-auto mt-5 flex px-6 py-2 text-white rounded-full bg-transparent shadow1 hover:border-blue-100 border-red-700 border transition-all delay-400 hover:text-white cursor-pointer" onClick={() => signOut()} >Sign Out</button>

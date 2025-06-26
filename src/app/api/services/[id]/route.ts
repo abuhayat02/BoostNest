@@ -3,18 +3,18 @@ import databaseConnections from "@/lib/mongodb";
 import Service from "@/models/services";
 import mongoose from "mongoose";
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: Request) {
   try {
     await databaseConnections();
 
-    if (!mongoose.Types.ObjectId.isValid(params.id)) {
+    const url = new URL(request.url);
+    const id = url.pathname.split("/").pop();  // URL এর শেষ অংশ
+
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json({ message: "Invalid Service ID" }, { status: 400 });
     }
 
-    const service = await Service.findById(params.id);
+    const service = await Service.findById(id);
 
     if (!service) {
       return NextResponse.json({ message: "Service not found" }, { status: 404 });
@@ -24,7 +24,11 @@ export async function GET(
       { service, message: "Single service fetched" },
       { status: 200 }
     );
-  } catch (error: any) {
-    return NextResponse.json({ message: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({ message: error.message }, { status: 400 });
+    } else {
+      return NextResponse.json({ message: "something is wrong" }, { status: 400 });
+    }
   }
 }

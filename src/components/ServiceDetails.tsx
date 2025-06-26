@@ -18,7 +18,7 @@ interface ServiceCardProps {
 }
 
 export default function ServiceDetails(params: ServiceCardProps) {
-  let {
+  const {
     _id,
     title,
     subtitle,
@@ -30,6 +30,7 @@ export default function ServiceDetails(params: ServiceCardProps) {
     feature,
   }
     = params
+  console.log("details services = ", params)
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

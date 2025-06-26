@@ -7,37 +7,37 @@ import React, { useState } from 'react'
 import { FaEyeSlash, FaRegEye } from 'react-icons/fa'
 
 function SignUp() {
-  let [error, setError] = useState("")
-  let router = useRouter()
-  let [form, setForm] = useState({
+  const [error, setError] = useState("")
+  const router = useRouter()
+  const [form, setForm] = useState({
     name: '',
     email: '',
     password: ''
   })
 
-  let [pending, setPending] = useState(false)
-  let [see, setSee] = useState(false)
+  const [pending, setPending] = useState(false)
+  const [see, setSee] = useState(false)
 
-  let displayPassword = () => {
+  const displayPassword = () => {
     setSee(!see)
   }
 
-  let submitFormdata = async (event: React.FormEvent) => {
+  const submitFormdata = async (event: React.FormEvent) => {
 
     event.preventDefault()
     setPending(true)
-    let res = await fetch('/api/auth/signup', {
+    const res = await fetch('/api/auth/signup', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)
     })
 
-    let data = await res.json()
+    const data = await res.json()
 
 
 
     if (res.ok) {
-      let response = await signIn('credentials', {
+      const response = await signIn('credentials', {
         redirect: false,
         email: form.email,
         password: form.password

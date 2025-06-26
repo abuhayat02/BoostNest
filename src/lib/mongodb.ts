@@ -1,20 +1,25 @@
 import mongoose from "mongoose"
 
-let databaseURL = process.env.MONGODB_URL
+const databaseURI = process.env.MONGODB_URI
 
-if (!databaseURL) {
+if (!databaseURI) {
   throw new Error("database url is not found , please check environment variable")
 }
 
-let databaseConnections = async () => {
+const databaseConnections = async () => {
   if (mongoose.connection.readyState === 1) {
     return mongoose
   }
   try {
-    await mongoose.connect(databaseURL!, { bufferCommands: false });
+    await mongoose.connect(databaseURI!, { bufferCommands: false });
     return mongoose
-  } catch (e: any) {
-    console.log(e.message)
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      console.log(e.message)
+
+    } else {
+      console.log('something is wrong')
+    }
   }
 }
 

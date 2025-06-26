@@ -1,7 +1,7 @@
 import { IYouTubeServices } from "@/interfaces/interfaces";
 import mongoose, { Model, Schema } from "mongoose";
 
-let servicesSchema: Schema<IYouTubeServices> = new mongoose.Schema({
+const servicesSchema: Schema<IYouTubeServices> = new mongoose.Schema({
   title: { type: String, required: true, unique: false },
   subtitle: { type: String, required: true, unique: false },
   category: { type: String, required: true, unique: false },
@@ -14,6 +14,6 @@ let servicesSchema: Schema<IYouTubeServices> = new mongoose.Schema({
   isActive: Boolean,
 }, { timestamps: true })
 
-let Service: Model<IYouTubeServices> = mongoose.models.Service || mongoose.model<IYouTubeServices>("Service", servicesSchema)
+const Service: Model<IYouTubeServices> = mongoose.models.Service || mongoose.model<IYouTubeServices>("Service", servicesSchema)
 
 export default Service

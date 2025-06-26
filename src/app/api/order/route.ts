@@ -42,37 +42,37 @@ export async function POST(request: Request) {
     await newOrder.save();
 
     return NextResponse.json({ message: "Order is pending" }, { status: 201 });
-  } catch (e: any) {
-    return NextResponse.json({ message: e.message }, { status: 400 });
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+
+      return NextResponse.json({ message: e.message }, { status: 400 });
+    } else {
+      return NextResponse.json({ message: 'something is wrong' }, { status: 400 });
+
+    }
   }
 }
 
 
 export async function GET(request: Request) {
   try {
-    let { searchParams } = new URL(request.url)
-    let role = searchParams.get('role')
-    let userId = searchParams.get("userId")
-    console.log({ role, userId })
     await databaseConnections();
-    let allRequest;
+    console.log('hello i am line 60')
 
-    if (role === "admin") {
-      allRequest = await Order.find({})
-        .populate("userId")
-        .populate("servicesId");
-    } else if (role === "user" && userId) {
-      allRequest = await Order.find({ userId })
-        .populate("userId")
-        .populate("servicesId");
-    } else {
-      return NextResponse.json({ message: "Unauthorized or Missing Parameters" }, { status: 401 });
-    }
+    const allRequest = await Order.find({})
+      .populate("userId")
+      .populate("servicesId");
+
     console.log(allRequest, " all request 71")
     return NextResponse.json({ message: "Requested orders", allRequest }, { status: 200 });
-  } catch (e: any) {
-    console.log(e.message)
-    return NextResponse.json({ message: e.message }, { status: 400 })
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      console.log('error is 70 , ', e.message)
+      return NextResponse.json({ message: e.message }, { status: 400 });
+    } else {
+      return NextResponse.json({ message: 'something is wrong' }, { status: 400 });
+
+    }
   }
 }
 

@@ -1,29 +1,24 @@
 "use client";
 
 import ServiceDetails from "@/components/ServiceDetails";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
-interface Params {
-  params: {
-    id: string;
-  };
-}
-
-export default function BuyService({ params }: Params) {
+export default function BuyService() {
   const [info, setInfo] = useState<any>({});
-  const { id } = use(params);
-
+  const params = useParams();
+  const id = params?.id as string;
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`/api/services/${id}`);
+        const res = await fetch(`http://localhost:3000/api/services/${id}`);
         const data = await res.json();
         setInfo(data?.service);
       } catch (e: any) {
         console.error("Fetch error:", e.message);
       }
     }
-    fetchData();
+    if (id) fetchData();
   }, [id]);
 
   return (

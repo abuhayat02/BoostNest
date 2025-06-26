@@ -9,22 +9,22 @@ import { FaEyeSlash, FaRegEye } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 
 function SignIn() {
-  let router = useRouter()
-  let [see, setSee] = useState(false)
-  let [error, setError] = useState<string>('')
-  let [pending, setPending] = useState<boolean>(false)
-  let [form, setForm] = useState<{ email: string, password: string }>({
+  const router = useRouter()
+  const [see, setSee] = useState(false)
+  const [error, setError] = useState<string>('')
+  const [pending, setPending] = useState<boolean>(false)
+  const [form, setForm] = useState<{ email: string, password: string }>({
     email: '',
     password: ''
   })
-  let displayPassword = () => {
+  const displayPassword = () => {
     setSee(!see)
   }
 
-  let loginInformation = async (e: React.FormEvent) => {
+  const loginInformation = async (e: React.FormEvent) => {
     e.preventDefault();
     setPending(true)
-    let res = await signIn('credentials', {
+    const res = await signIn('credentials', {
       redirect: false,
       email: form.email,
       password: form.password

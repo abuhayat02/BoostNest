@@ -4,7 +4,7 @@ import { IYouTubeServices } from "@/interfaces/interfaces";
 import Image from "next/image";
 import Link from "next/link";
 
-const YtServices: React.FC<IYouTubeServices> = ({ service }: any) => {
+const YtServices = ({ service }) => {
   return (
     <div className="group relative bg-[#0b0b0bde] hover:bg-[#1d1d1ddf]  overflow-hidden shadow-lg hover:shadow-red-500/50 transition-all duration-300 transform hover:-translate-y-2">
       <Image
@@ -33,7 +33,7 @@ const YtServices: React.FC<IYouTubeServices> = ({ service }: any) => {
             <Link href={`/buy-now/${service._id}`} className=" shadow2 text-white px-4 py-2  font-medium  hover:brightness-110 hover:scale-105 transition-all duration-300">
               Buy Now
             </Link>
-            <Link href={`/${service._id}?view=details`} className=" shadow2 text-white px-4 py-2  font-medium  hover:brightness-110 hover:scale-105 transition-all duration-300">
+            <Link href={`/${service._id}`} className=" shadow2 text-white px-4 py-2  font-medium  hover:brightness-110 hover:scale-105 transition-all duration-300">
               Details
             </Link>
           </div>

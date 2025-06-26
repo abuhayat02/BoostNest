@@ -1,7 +1,7 @@
 import { IOrder } from "@/interfaces/interfaces";
 import mongoose, { Model, Schema } from "mongoose";
 
-let orderSchema: Schema<IOrder> = new mongoose.Schema({
+const orderSchema: Schema<IOrder> = new mongoose.Schema({
   paymentScreenShort: {
     type: String,
     required: true,
@@ -26,6 +26,12 @@ let orderSchema: Schema<IOrder> = new mongoose.Schema({
     required: false
 
   },
+  status: {
+    type: String,
+    default: 'Checking',
+    required: true
+
+  },
   description: {
     type: String,
     required: false
@@ -36,7 +42,7 @@ let orderSchema: Schema<IOrder> = new mongoose.Schema({
   },
 }, { timestamps: true })
 
-let Order: Model<IOrder> = mongoose.models.Order || mongoose.model<IOrder>("Order", orderSchema)
+const Order: Model<IOrder> = mongoose.models.Order || mongoose.model<IOrder>("Order", orderSchema)
 
 export default Order
 

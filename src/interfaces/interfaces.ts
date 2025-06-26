@@ -9,6 +9,7 @@ export interface IOrder extends Document {
   youTubeChannelLink?: string,
   youtubeVideoLink?: string,
   description?: string,
+  status: 'Checking' | 'Running' | 'Completed',
   createdAt: Date,
   updatedAt: Date
 }

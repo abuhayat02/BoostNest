@@ -1,8 +1,12 @@
+
 import React from 'react'
 
-function Dashboard() {
+async function Dashboard() {
+
   return (
-    <div>Dashboard</div>
+    <div>
+      dashboard
+    </div>
   )
 }
 

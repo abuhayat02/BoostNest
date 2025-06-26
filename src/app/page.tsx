@@ -2,6 +2,7 @@
 import ServicesCardSection from '@/components/Services';
 import HeroSection from '@/components/HeroSection';
 import YtServices from '@/components/YtServices';
+import { IYouTubeServices } from '@/interfaces/interfaces';
 export default async function Home() {
 
   const res = await fetch('http://localhost:3000/api/services', {
@@ -44,7 +45,7 @@ export default async function Home() {
         <div className='grid grid-cols-1 container mx-auto  md:grid-cols-2 lg:grid-cols-3 gap-6 p-6'>
 
           {
-            data?.services?.map((service: any) => <YtServices key={service._id} service={service}></YtServices>)
+            data?.services?.map((service: IYouTubeServices) => <YtServices key={service._id} service={service}></YtServices>)
           }
 
         </div>
