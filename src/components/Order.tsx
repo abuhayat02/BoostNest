@@ -55,7 +55,7 @@ export default function OrderForm({ servicesId }: { servicesId: string }) {
       });
 
       if (orderRes.ok) {
-        router.push("/dashboard");
+        router.push("/dashboard/orders");
         alert("✅ Your request is pending");
       } else {
         const data = await orderRes.json();
@@ -69,55 +69,75 @@ export default function OrderForm({ servicesId }: { servicesId: string }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto mt-10 p-8 bg-[#1f1f1f] shadow-2xl space-y-8">
-      <h2 className="text-3xl font-bold text-center text-white">🚀 Submit Your Order</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl mx-auto mt-8 px-10 py-12 bg-gradient-to-bl from-[#0d08704f] via-[#d51a094d] to-[#38343487] shadow-[0_10px_40px_rgba(0,0,0,0.5)] space-y-4  border border-red-800"
+    >
+      <h2 className="text-3xl md:text-4xl font-extrabold text-center tracking-tight">
+        Submit Your Order
+      </h2>
 
-      {/* File input */}
-      <div>
-        <label className="text-white">Payment Screenshot *</label>
-        <input type="file" name="paymentScreenshot" required className="w-full bg-gray-800 text-white p-2 mt-2" />
+      {/* Screenshot Upload */}
+      <div className="flex flex-col gap-2">
+        <label className="text-white text-sm font-semibold">Payment Screenshot <span className="text-red-500">*</span></label>
+        <input
+          type="file"
+          name="paymentScreenshot"
+          required
+          accept="image/*"
+          className="w-full bg-white/5 text-white p-3  border border-transparent focus:outline-none focus:ring-2 focus:ring-red-600 placeholder:text-gray-500"
+        />
       </div>
 
-      {/* Channel Link */}
-      <div>
-        <label className="text-white">YouTube Channel Link *</label>
+      {/* YouTube Channel */}
+      <div className="flex flex-col gap-2">
+        <label className="text-white text-sm font-semibold">YouTube Channel Link <span className="text-red-500">*</span></label>
         <input
           type="url"
           name="youTubeChannelLink"
           required
+          placeholder="https://youtube.com/@yourchannel"
           value={youTubeChannelLink}
           onChange={(e) => setYouTubeChannelLink(e.target.value)}
-          className="w-full bg-gray-800 text-white p-2 mt-2"
+          className="w-full bg-white/5 text-white p-3  border border-transparent focus:outline-none focus:ring-2 focus:ring-red-600 placeholder:text-gray-500"
         />
       </div>
 
-      {/* Video Link */}
-      <div>
-        <label className="text-white">YouTube Video Link</label>
+      {/* YouTube Video */}
+      <div className="flex flex-col gap-2">
+        <label className="text-white text-sm font-semibold">YouTube Video Link</label>
         <input
           type="url"
           name="youtubeVideoLink"
+          placeholder="https://youtube.com/watch?v=video"
           value={youtubeVideoLink}
           onChange={(e) => setYoutubeVideoLink(e.target.value)}
-          className="w-full bg-gray-800 text-white p-2 mt-2"
+          className="w-full bg-white/5 text-white p-3  border border-transparent focus:outline-none focus:ring-2 focus:ring-red-600 placeholder:text-gray-500"
         />
       </div>
 
       {/* Description */}
-      <div>
-        <label className="text-white">Description</label>
+      <div className="flex flex-col gap-2">
+        <label className="text-white text-sm font-semibold">Description</label>
         <textarea
           name="description"
+          placeholder="Write anything if needed (optional)"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full bg-gray-800 text-white p-2 mt-2"
+          className="w-full bg-white/5 text-white p-3  border border-transparent focus:outline-none focus:ring-2 focus:ring-red-600 placeholder:text-gray-500 resize-none"
+          rows={4}
         ></textarea>
       </div>
 
       {/* Submit Button */}
-      <button type="submit" disabled={loading} className="w-full bg-red-600 hover:bg-red-700 text-white py-2 mt-4">
-        {loading ? "Submitting..." : "📩 Submit Order"}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-semibold py-3  shadow-lg hover:shadow-red-500/30 transition duration-300 disabled:opacity-60"
+      >
+        {loading ? "Submitting..." : "Submit Order"}
       </button>
     </form>
+
   );
 }

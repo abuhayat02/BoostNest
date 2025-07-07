@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { FaCheck } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 interface ServiceCardProps {
   _id?: string;
@@ -18,6 +19,7 @@ interface ServiceCardProps {
 }
 
 export default function ServiceDetails(params: ServiceCardProps) {
+  const session = useSession()
   const {
     _id,
     title,
@@ -30,7 +32,6 @@ export default function ServiceDetails(params: ServiceCardProps) {
     feature,
   }
     = params
-  console.log("details services = ", params)
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -72,9 +73,13 @@ export default function ServiceDetails(params: ServiceCardProps) {
             <span className="text-[#ff4c4c] font-semibold text-lg"> ৳ {price}</span>
             <span className="text-gray-400"> Delivery Time : ⏱ {deliveryTime[0]}d</span>
           </div>
-          <Link href={`/buy-now/${_id}`} className=" shadow2  text-white px-4 py-2  font-medium rounded-full text-center md:rounded-none  hover:brightness-110 hover:scale-105 transition-all duration-300">
-            Buy Now
-          </Link>
+          {
+            session.data?.user.role === 'admin' ? <Link href={`/dashboard/admin/all-services`} className=" shadow2  text-white px-4 py-2  font-medium rounded-full text-center md:rounded-none  hover:brightness-110 hover:scale-105 transition-all duration-300">
+              Back
+            </Link> : <Link href={`/buy-now/${_id}`} className=" shadow2  text-white px-4 py-2  font-medium rounded-full text-center md:rounded-none  hover:brightness-110 hover:scale-105 transition-all duration-300">
+              Buy Now
+            </Link>
+          }
         </div>
       </div>
     </motion.div>

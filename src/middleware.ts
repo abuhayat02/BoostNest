@@ -1,18 +1,29 @@
-import { getToken } from "next-auth/jwt";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { authMiddleware } from "./middlewares/authMiddleware";
+import { adminMiddleware } from "./middlewares/adminMiddleware";
 
-export async function middleware(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
-  if (!token) {
-    return NextResponse.redirect(new URL('/sign-up', req.url))
+export async function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+
+  if (pathname.startsWith("/dashboard") || pathname.startsWith("/buy-now")) {
+    const auth = await authMiddleware(request);
+    if (auth) return auth;
   }
 
-  console.log("hello from middleware")
-  return NextResponse.next()
+  if (pathname.startsWith("/dashboard/admin")) {
+    const adminCheck = await adminMiddleware(request);
+    if (adminCheck) return adminCheck;
+  }
 
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/buy-now/:path*"]
-}
-
+  matcher: [
+    "/dashboard",
+    "/dashboard/:path*",
+    "/buy-now",
+    "/buy-now/:path*",
+  ],
+};

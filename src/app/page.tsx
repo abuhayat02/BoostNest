@@ -3,9 +3,13 @@ import ServicesCardSection from '@/components/Services';
 import HeroSection from '@/components/HeroSection';
 import YtServices from '@/components/YtServices';
 import { IYouTubeServices } from '@/interfaces/interfaces';
+// App.tsx বা layout.tsx এ
+
+
+
 export default async function Home() {
 
-  const res = await fetch('http://localhost:3000/api/services', {
+  const res = await fetch(`http://localhost:3000/api/services`, {
 
     cache: 'no-store'
   })

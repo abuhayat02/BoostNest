@@ -1,6 +1,9 @@
 import databaseConnections from "@/lib/mongodb"
+import { authOption } from "@/lib/nextOuthOptions";
 import Order from "@/models/order"
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server"
+import "@/models/services";
 
 
 export async function POST(request: Request) {
@@ -27,7 +30,6 @@ export async function POST(request: Request) {
         $lte: endOfDay,
       },
     });
-    console.log("submit count = ", todayOrderCount)
     if (todayOrderCount >= 8) {
       return NextResponse.json(
         { message: "You can only place up to 4 orders per day." },
@@ -55,25 +57,52 @@ export async function POST(request: Request) {
 
 
 export async function GET(request: Request) {
+  const session = await getServerSession(authOption);
+
   try {
     await databaseConnections();
-    console.log('hello i am line 60')
+    if (!session) {
+      return NextResponse.json({
+        message: "Unauthorize access"
+      }, { status: 401 })
+    }
 
-    const allRequest = await Order.find({})
-      .populate("userId")
-      .populate("servicesId");
+    if (session?.user.role === 'admin') {
+      const allRequest = await Order.find({})
+        .populate("userId")
+        .populate("servicesId").sort({ createdAt: -1 });
+      return NextResponse.json({ message: "Requested orders", allRequest }, { status: 200 });
+    }
 
-    console.log(allRequest, " all request 71")
+
+    const allRequest = await Order.find({ userId: session?.user.id }).populate('servicesId')
     return NextResponse.json({ message: "Requested orders", allRequest }, { status: 200 });
+
   } catch (e: unknown) {
     if (e instanceof Error) {
       console.log('error is 70 , ', e.message)
       return NextResponse.json({ message: e.message }, { status: 400 });
     } else {
       return NextResponse.json({ message: 'something is wrong' }, { status: 400 });
-
     }
   }
 }
 
+export async function PATCH(req: Request) {
+  const { status, orderId } = await req.json()
+  console.log({ status, orderId })
+  try {
+    await databaseConnections()
+    const orderStatus = await Order.findByIdAndUpdate(orderId, { status })
+    return NextResponse.json({ message: "Updated Status", orderStatus }, { status: 200 });
+
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      console.log('error is 70 , ', e.message)
+      return NextResponse.json({ message: e.message }, { status: 400 });
+    } else {
+      return NextResponse.json({ message: 'something is wrong' }, { status: 400 });
+    }
+  }
+}
 

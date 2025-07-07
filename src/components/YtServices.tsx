@@ -1,12 +1,15 @@
-"user client";
+"use client";
 
-import { IYouTubeServices } from "@/interfaces/interfaces";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
-const YtServices = ({ service }) => {
+const YtServices = ({ service }: { service: any }) => {
+  const { data: session } = useSession();
+
   return (
-    <div className="group relative bg-[#0b0b0bde] hover:bg-[#1d1d1ddf]  overflow-hidden shadow-lg hover:shadow-red-500/50 transition-all duration-300 transform hover:-translate-y-2">
+    <div className="group relative bg-[#0b0b0bde] hover:bg-[#1d1d1ddf] overflow-hidden shadow-lg hover:shadow-red-500/50 transition-all duration-300 transform hover:-translate-y-2 rounded-md">
+      {/* Thumbnail */}
       <Image
         src={service.thumbnail}
         alt={service.title}
@@ -29,25 +32,31 @@ const YtServices = ({ service }) => {
           <span className="text-red-400 text-lg font-semibold tracking-wide">
             ৳{service.price}
           </span>
-          <div className="flex flex-row justify-between gap-4 items-center">
-            <Link href={`/buy-now/${service._id}`} className=" shadow2 text-white px-4 py-2  font-medium  hover:brightness-110 hover:scale-105 transition-all duration-300">
-              Buy Now
-            </Link>
-            <Link href={`/${service._id}`} className=" shadow2 text-white px-4 py-2  font-medium  hover:brightness-110 hover:scale-105 transition-all duration-300">
+          <div className="flex gap-4 items-center">
+            {session?.user?.role === "user" && (
+              <Link
+                href={`/buy-now/${service._id}`}
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition-all duration-300"
+              >
+                Buy Now
+              </Link>
+            )}
+            <Link
+              href={`/${service._id}`}
+              className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white text-sm font-medium transition-all duration-300"
+            >
               Details
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Ribbon / Badge */}
+      {/* Badge */}
       <span className="absolute top-0 left-0 bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-br-xl">
         YouTube Service
       </span>
     </div>
+  );
+};
 
-
-  )
-}
-
-export default YtServices
+export default YtServices;

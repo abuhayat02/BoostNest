@@ -1,6 +1,5 @@
 
 "use client"
-import { IUser } from '@/interfaces/interfaces'
 import { SessionProvider } from 'next-auth/react'
 import React from 'react'
 

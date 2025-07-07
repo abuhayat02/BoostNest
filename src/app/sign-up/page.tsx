@@ -1,9 +1,9 @@
 "use client"
 
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaEyeSlash, FaRegEye } from 'react-icons/fa'
 
 function SignUp() {
@@ -14,6 +14,7 @@ function SignUp() {
     email: '',
     password: ''
   })
+  const session = useSession()
 
   const [pending, setPending] = useState(false)
   const [see, setSee] = useState(false)
@@ -21,6 +22,8 @@ function SignUp() {
   const displayPassword = () => {
     setSee(!see)
   }
+
+
 
   const submitFormdata = async (event: React.FormEvent) => {
 

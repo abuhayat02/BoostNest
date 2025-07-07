@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     await databaseConnections();
 
     const url = new URL(request.url);
-    const id = url.pathname.split("/").pop();  // URL এর শেষ অংশ
+    const id = url.pathname.split("/").pop();
 
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json({ message: "Invalid Service ID" }, { status: 400 });
@@ -32,3 +32,29 @@ export async function GET(request: Request) {
     }
   }
 }
+
+export async function DELETE(req: Request) {
+  const url = new URL(req.url);
+  const id = url.pathname.split("/").pop();
+  // console.log("our delate services is - 39 no line ", id)
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    return NextResponse.json({ message: "Invalid Service ID" }, { status: 400 });
+  }
+
+  try {
+    await databaseConnections()
+    const res = await Service.deleteOne({ _id: id })
+    return NextResponse.json({ message: 'deleted services', response: res }, { status: 200 });
+
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+
+      return NextResponse.json({ message: e.message }, { status: 400 });
+    } else {
+      return NextResponse.json({ message: 'something is wrong' }, { status: 400 });
+
+    }
+
+  }
+}
+

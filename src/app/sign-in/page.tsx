@@ -1,15 +1,16 @@
 "use client"
 
 import { set } from 'mongoose'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaEyeSlash, FaRegEye } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 
 function SignIn() {
   const router = useRouter()
+  const session = useSession()
   const [see, setSee] = useState(false)
   const [error, setError] = useState<string>('')
   const [pending, setPending] = useState<boolean>(false)
@@ -20,6 +21,7 @@ function SignIn() {
   const displayPassword = () => {
     setSee(!see)
   }
+
 
   const loginInformation = async (e: React.FormEvent) => {
     e.preventDefault();

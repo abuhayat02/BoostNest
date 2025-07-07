@@ -12,8 +12,9 @@ function Layout({
 }>) {
   const { data: session } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const userRole = session?.user.role
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-white flex flex-col md:flex-row">
@@ -33,24 +34,44 @@ function Layout({
         <div className="text-3xl font-extrabold uppercase text-red-600 tracking-tight hidden md:block">
           Boost<span className="text-white">Nest</span>
         </div>
-        <nav className="flex flex-col gap-6 text-sm mt-10 border-t py-6">
+        {userRole === 'user' && <nav className="flex flex-col gap-6 text-sm mt-10 border-t py-6">
           <Link href="/dashboard" className="hover:text-red-500 transition font-medium">
-            📊 Dashboard
-          </Link>
-
-          <Link href="/dashboard/users" className="hover:text-red-500 transition font-medium">
-            👥 Ongoing Orders
+            Dashboard
           </Link>
           <Link href="/dashboard/orders" className="hover:text-red-500 transition font-medium">
-            🎥 Payment Requests
+            Payment Requests
           </Link>
-          <Link href="#" className="hover:text-red-500 transition font-medium">
-            💼 Update Profile
+          <Link href="/dashboard/profile" className="hover:text-red-500 transition font-medium">
+            Profile
           </Link>
-          <Link href="#" className="hover:text-red-500 transition font-medium">
-            ⚙️ Settings
-          </Link>
-        </nav>
+
+        </nav>}
+        {
+          userRole === 'admin' && <nav className="flex flex-col gap-6 text-sm mt-10 border-t py-6">
+            <Link href="/dashboard/admin" className="hover:text-red-500 transition font-medium">
+              Dashboard
+            </Link>
+
+
+            <Link href="/dashboard/admin/add-services" className="hover:text-red-500 transition font-medium">
+              Add Services
+            </Link>
+
+            <Link href="/dashboard/admin/all-services" className="hover:text-red-500 transition font-medium">
+              Services
+            </Link>
+            <Link href="/dashboard/admin/payments" className="hover:text-red-500 transition font-medium">
+              Orders
+            </Link>
+            <Link href="/dashboard/profile" className="hover:text-red-500 transition font-medium">
+              Profile
+            </Link>
+            <Link href="/dashboard/admin/users" className="hover:text-red-500 transition font-medium">
+              All Users
+            </Link>
+
+          </nav>
+        }
       </aside>
 
       <main className=" w-full bg-[#121212] min-h-screen overflow-y-auto ">
